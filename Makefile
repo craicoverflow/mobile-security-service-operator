@@ -1,6 +1,9 @@
 APP_NAME = mobile-security-service-operator
 ORG_NAME = aerogear
 PKG = github.com/$(ORG_NAME)/$(APP_NAME)
+TOP_SRC_DIRS = pkg
+PACKAGES ?= $(shell sh -c "find $(TOP_SRC_DIRS) -name \\*_test.go \
+              -exec dirname {} \\; | sort | uniq")
 APP_FILE=./cmd/manager/main.go
 BIN_DIR := $(GOPATH)/bin
 BINARY ?= mobile-security-service-operator
@@ -13,6 +16,19 @@ DOCKER-REPO=mobile-security-service-operator
 BINARY_LINUX_64 = ./dist/linux_amd64/$(BINARY)
 
 LDFLAGS=-ldflags "-w -s -X main.Version=${TAG}"
+
+.PHONY: setup
+setup:
+	dep ensure
+
+.PHONY: test
+test:
+	@echo Running tests:
+	GOCACHE=off go test -cover $(addprefix $(PKG)/,$(PACKAGES))
+
+.PHONY: build_linux
+build_linux:
+	env GOOS=linux GOARCH=amd64 go build cmd/manager/main.go
 
 .PHONY: bind
 bind:
@@ -119,7 +135,7 @@ delete-db-only:
 
 .PHONY: build
 build:
-	@echo Buinding operator with the tag $(TAG):
+	@echo Building operator with the tag $(TAG):
 	operator-sdk build $(DOCKER-ORG)/$(DOCKER-REPO):$(TAG)
 
 .PHONY: publish
