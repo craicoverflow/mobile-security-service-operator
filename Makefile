@@ -4,6 +4,7 @@ PKG = github.com/$(ORG_NAME)/$(APP_NAME)
 TOP_SRC_DIRS = pkg
 PACKAGES ?= $(shell sh -c "find $(TOP_SRC_DIRS) -name \\*_test.go \
               -exec dirname {} \\; | sort | uniq")
+TEST_PKGS = $(addprefix $(PKG)/,$(PACKAGES))
 APP_FILE=./cmd/manager/main.go
 BIN_DIR := $(GOPATH)/bin
 BINARY ?= mobile-security-service-operator
@@ -24,7 +25,8 @@ setup:
 .PHONY: test
 test:
 	@echo Running tests:
-	GOCACHE=off go test -cover $(addprefix $(PKG)/,$(PACKAGES))
+	@echo $(TEST_PKGS)
+	GOCACHE=off go test -cover $(TEST_PKGS)
 
 .PHONY: build_linux
 build_linux:
