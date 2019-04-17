@@ -26,8 +26,9 @@ setup:
 test:
 	@echo Running tests:
 	@echo $(TEST_PKGS)
-	if [ -z $(TEST_PKGS) ]; then
-	  @echo "No test files found to test";
+	if [ -z $(TEST_PKGS) ]
+	then
+	  @echo No test files found to test
 	else
 	  GOCACHE=off go test -cover $(TEST_PKGS)
 	fi
