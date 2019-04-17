@@ -27,9 +27,9 @@ test:
 	@echo Running tests:
 	@echo $(TEST_PKGS)
 	ifdef $(TEST_PKGS)
-	  GOCACHE=off go test -cover $(TEST_PKGS)
+	GOCACHE=off go test -cover $(TEST_PKGS)
 	else
-	  @echo No test files to test
+	@echo No test files to test
 	endif
 
 .PHONY: build_linux
