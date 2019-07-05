@@ -27,7 +27,7 @@ spec:
                   fieldPath: metadata.namespace
             - name: APP_NAMESPACES
               # Replace this with the valid namespaces to allow apply the MobileSecurityServiceApp
-              value: "mobile-security-service-apps"
+              value: "mobile-console"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
