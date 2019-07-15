@@ -42,10 +42,9 @@ install:
 	@echo ....... Applying Mobile Security Service Operator .......
 	- kubectl apply -f deploy/operator.yaml
 	@echo ....... Creating the Mobile Security Service and Database .......
+	- oc new-project mobile-console
 	- kubectl apply -f deploy/crds/mobile-security-service_v1alpha1_mobilesecurityservice_cr.yaml
 	- kubectl apply -f deploy/crds/mobile-security-service_v1alpha1_mobilesecurityservicedb_cr.yaml
-	@echo ....... Creating namespace ${APP_NAMESPACES} .......
-	- oc new-project ${APP_NAMESPACES}
 
 .PHONY: uninstall
 uninstall:
